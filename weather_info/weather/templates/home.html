@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Weather Info</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="jumbotron" id="header">
+            <h1 class="text-center">Weather App</h1>
+            <h6>
+                
+            </h6>
+        </div>
+        
+        <div class="container input-form" >
+            <form action="addcity" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    {{form.name}}
+                    <div class="input-group-append">
+                    <input class="btn btn-outline-secondary" type="submit" value="Add City">
+                    </div>
+                </div>
+                {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+            </form>
+        </div>
+
+        <div class="container">
+            <div class="row list ">
+                    {% for city_weather in weather_data %}
+                    <div class="col-6 col-md-4">
+                        <div class="card">
+                            <a href="{% url 'delete' city_weather.city %}">
+                                <button type="button" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </a>
+                            
+                            <img class="card-img" src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title">City: {{city_weather.city}}</h5>
+                              <h5 class="card-title">Temperature: {{city_weather.temperature}}</h5>
+                              <h5 class="card-text">Feel like: {{city_weather.description}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+             </div>
+        </div>
+
+
+        </section>
+        <script src="" async defer></script>
+    </body>
+</html>
